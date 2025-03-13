@@ -1,10 +1,11 @@
 #!python
+
 import json
 import cmd
 from model import User , Task
 
-
 class ToDoList(cmd.Cmd):
+    _FILEPATH = r"/home/abdalrhman/All/Programing & CS/My_Projects/Todo_list/To-Do-List/Cli-Task-Tracker/users.json"
     intro = "Welcom To The To-Do_List" # TODO : Use pyfiglet to add logo of (to do list app)
     prompt = ">> "
     
@@ -20,14 +21,17 @@ class ToDoList(cmd.Cmd):
             username = input("Enter your username: ")
             password = input("Enter your password: ")
             user = User(username, password)
-            if not user :
+            if user.is_there() :
                 print("valid name or password")
                 exit()
-            self.user = user
-
-        elif login == "y" : # TODO : Fix it 
-            if user.name == username and user.password == password :
-                self.user = user 
+            else :
+                self.user = user
+        elif login == "y" : 
+            username = input("Enter your username: ")
+            password = input("Enter your password: ")
+            user = User(username, password)
+            if user.is_there() :
+                self.user = user.is_there() 
             else :
                 print("valid input")
                 exit()
@@ -42,6 +46,7 @@ class ToDoList(cmd.Cmd):
 
     def do_done(self, arg) :
         """ List done tasks in the task manager """
+        print(arg)
         self.user.done_tasks()
 
     def do_inprogress(self, arg):
@@ -58,9 +63,30 @@ class ToDoList(cmd.Cmd):
         """ Delete a task from the task manager """
         self.user.delete_task(arg)
 
-    def do_exit(self, arg): # TODO : save user and Tasks before Close
-        return True
+    def do_setdiscreption(self): # TODO 
+        ...
 
+    def do_taskinfo(self): # TODO
+        ...
+
+    def do_exit(self, arg): # TODO : save user and Tasks before Close
+        if self.user.is_there() :
+            save = input("Do you want to save your changes.(y/n): ").lower().strip()
+            if save == "y" :
+                with open(self._FILEPATH, "r") as f :
+                    data = json.load(f)
+                data.append(self.user.__dict__)
+                with open(self._FILEPATH, "w") as f :
+                    json.dump(data, f, indent=3)
+        else :
+            save = input("Do you want to save your new account.(y/n): ").lower().strip()
+            if save == "y" :
+                with open(self._FILEPATH, "r") as f :
+                    data = json.load(f)
+                data.append(self.user.__dict__)
+                with open(self._FILEPATH, "w") as f :
+                    json.dump(data, f, indent=3)
+        return True
 
 if __name__ == "__main__" :
     ToDoList().cmdloop()

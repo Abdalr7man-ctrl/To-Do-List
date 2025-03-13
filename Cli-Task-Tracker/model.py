@@ -1,24 +1,24 @@
 import json
 import uuid
 import time
+
 class User :
-    _FILEPATH = r"/home/abdalrhman/All/Programing & CS/My_Projects/Todo_list/To-Do-List/Cli-Task-Tracker/Data/users.json"
-    def __init__(self, name, password):
+    _FILEPATH = r"/home/abdalrhman/All/Programing & CS/My_Projects/Todo_list/To-Do-List/Cli-Task-Tracker/users.json"
+    def __init__(self, name, password, id=None, tasks=None):
         self.name = name 
         self.password = password
-        self.id = str(uuid.uuid4()) # random 32 char according to RFC 4122
-        self.tasks = []
-        self.is_there()
+        self.id = id or str(uuid.uuid4()) # random 32 char according to RFC 4122
+        self.tasks = tasks or []
 
-    def is_there(self):
-        with open(self._FILEPATH, "r") as f :
+    @classmethod
+    def is_there(cls):
+        with open(cls._FILEPATH, "r") as f :
             file = f.read()
             data = json.loads(file)
             for user in data :
-                if self.name in user and self.password in user :
-                    return True
-                else :
-                    return False
+                if cls.name == user["name"] and cls.password == user["password"] :
+                    return cls(**user)
+            return False
 
     def add_task(self, task_name:str, discreption_task:str = "No Discreption"):
         task = Task(task_name, discreption_task)
@@ -49,7 +49,6 @@ class User :
                 self.tasks.remove(i)
                 i = None
 class Task:
-    _FILEPATH = r"/home/abdalrhman/All/Programing & CS/My_Projects/Todo_list/To-Do-List/Cli-Task-Tracker/Data/tasks.json"
     def __init__(self, name, discreption = "No Discreption"):
         self.name = name 
         self.created_at = time.ctime()
@@ -72,20 +71,5 @@ class Task:
     def task_info(self):
         return f"The task {self.name}\nIts created at {self.created_at}\nand The status is {self.status}"
 
-
 if __name__ == "__main__" :
-    print(uuid.uuid4())
-    print(time.ctime())
-    abdo = User("Abdalrhman", "2004/6/1//")
-    abdo.add_task("play game", "i will play pes")
-    abdo.add_task("study", "i will study math")
-    abdo.add_task("visit", "i will visit the Family")
-    print(abdo.tasks[0].task_info())
-    print(abdo.tasks[0].status)
-    # abdo.list_tasks()
-    abdo.delete_task("visit")
-    # abdo.list_tasks()
-    # abdo.tasks[0].edit_status()
-    abdo.done_tasks()
-    abdo.inprogress()
-    print(abdo.__dict__)
+    ...
