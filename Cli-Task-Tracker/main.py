@@ -46,7 +46,6 @@ class ToDoList(cmd.Cmd):
 
     def do_done(self, arg) :
         """ List done tasks in the task manager """
-        print(arg)
         self.user.done_tasks()
 
     def do_inprogress(self, arg):
@@ -56,8 +55,14 @@ class ToDoList(cmd.Cmd):
     def do_mark(self, arg):
         """ Mark a task as completed or Inprogress"""
         for task in self.user.tasks :
-            if task.name == arg :
-                task.edit_status()
+            if task["name"] == arg :
+                new_status = input("write your new status --> Done , Inprogress, Not Done:\n")
+                if new_status.lower() == "done" :
+                    task["status"] = "Done"
+                elif new_status.lower() == "inprogress" :
+                    task["status"] = "Inprogress"
+                elif new_status.lower() == "not done" :
+                    task["status"] = "Not Done"
 
     def do_delete(self, arg):
         """ Delete a task from the task manager """
@@ -69,12 +74,15 @@ class ToDoList(cmd.Cmd):
     def do_taskinfo(self): # TODO
         ...
 
-    def do_exit(self, arg): # TODO : save user and Tasks before Close
+    def do_exit(self, arg):
         if self.user.is_there() :
             save = input("Do you want to save your changes.(y/n): ").lower().strip()
             if save == "y" :
                 with open(self._FILEPATH, "r") as f :
                     data = json.load(f)
+                for user in data :
+                    if user["name"] == self.user.name and user["password"] == self.user.password :
+                        data.remove(user)
                 data.append(self.user.__dict__)
                 with open(self._FILEPATH, "w") as f :
                     json.dump(data, f, indent=3)
