@@ -1,17 +1,15 @@
-#!python
-
+import os
 import json
 import cmd
-from model import User , Task
+from model import User
 
 class ToDoList(cmd.Cmd):
-    _FILEPATH = r"/home/abdalrhman/All/Programing & CS/My_Projects/Todo_list/To-Do-List/Cli-Task-Tracker/users.json"
-    intro = "Welcom To The To-Do_List" # TODO : Use pyfiglet to add logo of (to do list app)
+    _FILEPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.json")
+    intro = "Welcom To The To-Do_List"
     prompt = ">> "
-    
     def __init__(self):
         super().__init__()
-        self.user = None 
+        self.user = None
         self.do_login()
 
     def do_login(self):
@@ -26,12 +24,12 @@ class ToDoList(cmd.Cmd):
                 exit()
             else :
                 self.user = user
-        elif login == "y" : 
+        elif login == "y" :
             username = input("Enter your username: ")
             password = input("Enter your password: ")
             user = User(username, password)
             if user.is_there() :
-                self.user = user.is_there() 
+                self.user = user.is_there()
             else :
                 print("valid input")
                 exit()
@@ -39,7 +37,7 @@ class ToDoList(cmd.Cmd):
     def do_add(self, arg):
         """ Add a task to the task manager """
         self.user.add_task(arg)
-    
+
     def do_list(self, arg):
         """ List all tasks in the task manager """
         self.user.list_tasks()
@@ -65,34 +63,34 @@ class ToDoList(cmd.Cmd):
                     task["status"] = "Not Done"
 
     def do_delete(self, arg):
-        """ Delete a task from the task manager """
+        """ Delete The task of the user from the task manager """
         self.user.delete_task(arg)
 
-    def do_setdiscreption(self): # TODO 
-        ...
-
-    def do_taskinfo(self): # TODO
-        ...
+    def do_setdiscreption(self, arg):
+        for task in self.user.tasks :
+            if task["name"] == arg :
+                new_descreption = input("Set New Descreption for your Task.\n")
+                task["status"] = new_descreption
 
     def do_exit(self, arg):
         if self.user.is_there() :
             save = input("Do you want to save your changes.(y/n): ").lower().strip()
             if save == "y" :
-                with open(self._FILEPATH, "r") as f :
+                with open(self._FILEPATH, "r", encoding="utf-8") as f :
                     data = json.load(f)
                 for user in data :
                     if user["name"] == self.user.name and user["password"] == self.user.password :
                         data.remove(user)
                 data.append(self.user.__dict__)
-                with open(self._FILEPATH, "w") as f :
+                with open(self._FILEPATH, "w", encoding="utf-8") as f :
                     json.dump(data, f, indent=3)
         else :
             save = input("Do you want to save your new account.(y/n): ").lower().strip()
             if save == "y" :
-                with open(self._FILEPATH, "r") as f :
+                with open(self._FILEPATH, "r", encoding="utf-8") as f :
                     data = json.load(f)
                 data.append(self.user.__dict__)
-                with open(self._FILEPATH, "w") as f :
+                with open(self._FILEPATH, "w", encoding="utf-8") as f :
                     json.dump(data, f, indent=3)
         return True
 
