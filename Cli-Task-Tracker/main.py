@@ -1,7 +1,9 @@
 import os
 import json
 import cmd
-from model import User
+import hashlib
+from model import User, Task
+# TODO : Use import rich.console to color the text.
 
 class ToDoList(cmd.Cmd):
     _FILEPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.json")
@@ -17,7 +19,7 @@ class ToDoList(cmd.Cmd):
         login = input("Do you have an account? (y/n): ").lower().strip()
         if login == "n" :
             username = input("Enter your username: ")
-            password = input("Enter your password: ")
+            password = hashlib.sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
             user = User(username, password)
             if user.is_there() :
                 print("valid name or password")
@@ -26,7 +28,7 @@ class ToDoList(cmd.Cmd):
                 self.user = user
         elif login == "y" :
             username = input("Enter your username: ")
-            password = input("Enter your password: ")
+            password = hashlib.sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
             user = User(username, password)
             if user.is_there() :
                 self.user = user.is_there()
@@ -72,6 +74,12 @@ class ToDoList(cmd.Cmd):
                 new_descreption = input("Set New Descreption for your Task.\n")
                 task["status"] = new_descreption
 
+    def do_task_info(self, arg):
+        for task in self.user.tasks :
+            if task["name"] == arg :
+                task = Task(**task)
+                print(task.task_info())
+
     def do_exit(self, arg):
         if self.user.is_there() :
             save = input("Do you want to save your changes.(y/n): ").lower().strip()
@@ -79,7 +87,7 @@ class ToDoList(cmd.Cmd):
                 with open(self._FILEPATH, "r", encoding="utf-8") as f :
                     data = json.load(f)
                 for user in data :
-                    if user["name"] == self.user.name and user["password"] == self.user.password :
+                    if user["id_"] == self.user.id_ :
                         data.remove(user)
                 data.append(self.user.__dict__)
                 with open(self._FILEPATH, "w", encoding="utf-8") as f :

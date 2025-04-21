@@ -1,6 +1,7 @@
 import os
 import json
 import uuid
+import hashlib
 import time
 
 class User :
@@ -64,7 +65,7 @@ class Task:
         self.discreption = new_discreption
 
     def task_info(self):
-        return f"The task {self.name}\nIts created at {self.created_at}\nand The status is {self.status}"
+        return f"The task {self.name}\ncreated at : {self.created_at}\nThe status:{self.status}\nDiscreption:\n{self.discreption}"
 
 if __name__ == "__main__" :
     pass

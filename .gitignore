@@ -20,3 +20,28 @@ rad.json
 *.flf
 #Test results file
 TestResults.xml
+# Ignore virtual environments
+venv/
+.venv/
+
+# Ignore compiled Python files
+__pycache__/
+*.pyc
+
+# Ignore editor files
+.vscode/
+.idea/
+
+# Ignore environment files
+.env
+
+# Ignore build and distribution folders
+build/
+dist/
+
+# Ignore test coverage files
+.coverage
+htmlcov/
+
+# Ignore specific files
+debug.log
