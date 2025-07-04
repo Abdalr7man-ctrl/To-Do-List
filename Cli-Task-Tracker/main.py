@@ -38,21 +38,21 @@ class ToDoList(cmd.Cmd):
             self.do_login()
 
     def do_add(self, arg):
-        """ Add a task to the task manager """
+        """ Add a task to the task manager"""
         # TODO: improve the method
         self.user.add_task(arg)
 
     def do_list(self, arg):
-        """ List all tasks in the task manager """
+        """ List all tasks in the task manager"""
         self.user.list_tasks()
 
     def do_done(self, arg) :
-        """ List done tasks in the task manager """
+        """ List done tasks in the task manager"""
         self.user.done_tasks()
 
-    def do_inprogress(self, arg):
+    def do_inProgress(self, arg):
         """ List in progress tasks in the task manager """
-        self.user.inprogress()
+        self.user.inProgress()
 
     def do_mark(self, arg):
         """ Mark a task as completed or In progress"""
@@ -67,7 +67,7 @@ class ToDoList(cmd.Cmd):
                     task["status"] = "Not Done"
 
     def do_delete(self, arg):
-        """ Delete The task of the user from the task manager """
+        """ Delete The task of the user from the task manager"""
         self.user.delete_task(arg)
 
     def do_set_description(self, arg):
@@ -95,11 +95,11 @@ class ToDoList(cmd.Cmd):
                 with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
                     json.dump(data, f, indent=3)
             else :
-                    with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
-                        data = json.load(f)
-                    data.append(self.user.__dict__)
-                    with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
-                        json.dump(data, f, indent=3)
+                with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
+                    data = json.load(f)
+                data.append(self.user.__dict__)
+                with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
+                    json.dump(data, f, indent=3)
         return True
 
 if __name__ == "__main__" :

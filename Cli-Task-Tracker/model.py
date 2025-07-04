@@ -37,10 +37,10 @@ class User :
                 print(f"{num}-{task['name']}")
                 num += 1
 
-    def inprogress(self):
+    def inProgress(self):
         num = 1
         for task in self.tasks :
-            if task["status"] == "Inprogress" :
+            if task["status"] == "InProgress" :
                 print(f"{num}-{task['name']}")
                 num += 1
 
