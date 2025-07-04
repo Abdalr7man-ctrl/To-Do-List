@@ -1,19 +1,20 @@
 import os
 import json
-import uuid
-import hashlib
-import time
+from time import ctime
+from uuid import uuid4
+
 
 class User :
-    _FILEPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.json")
+    FILEPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.json")
+
     def __init__(self, name, password, id_=None, tasks=None):
         self.name = name
         self.password = password
-        self.id_ = id_ or str(uuid.uuid4()) # random 32 char according to RFC 4122
+        self.id_ = id_ or str(uuid4())
         self.tasks = tasks or []
 
     def is_there(self):
-        with open(self._FILEPATH, "r", encoding="utf-8") as f :
+        with open(self.FILEPATH, "r", encoding="utf-8") as f :
             file = f.read()
             data = json.loads(file)
             for user in data :
@@ -21,8 +22,8 @@ class User :
                     return User(**user)
             return False
 
-    def add_task(self, task_name:str, discreption_task:str = "No Discreption"):
-        task = Task(task_name, discreption_task)
+    def add_task(self, task_name:str, description_task:str = "No Description"):
+        task = Task(task_name, description_task)
         self.tasks.append(task.__dict__)
 
     def list_tasks(self):
@@ -53,19 +54,20 @@ class User :
             if i["name"].lower() == name_task.lower() :
                 self.tasks.remove(i)
 
+
 class Task:
-    def __init__(self, name, discreption = "No Discreption", created_at=None, status=None):
+    def __init__(self, name, description = "No Description", created_at=None, status=None):
         self.name = name
-        self.created_at = created_at or time.ctime()
-        self.discreption = discreption
+        self.created_at = created_at or ctime()
+        self.description = description
         self.status = status or "Not Done"
 
-    def edit_discreption(self):
-        new_discreption = input(f"Write your new discreption for your task {self.name}:\n")
-        self.discreption = new_discreption
+    def edit_description(self):
+        new_description = input(f"Write your new description for your task {self.name}:\n")
+        self.description = new_description
 
     def task_info(self):
-        return f"The task {self.name}\ncreated at : {self.created_at}\nThe status:{self.status}\nDiscreption:\n{self.discreption}"
+        return f"The task: {self.name}\nCreated at: {self.created_at}\nThe status: {self.status}\nDescription: {self.description}"
 
 if __name__ == "__main__" :
     pass

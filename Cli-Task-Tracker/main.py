@@ -1,14 +1,12 @@
-import os
 import json
 import cmd
 import hashlib
 from model import User, Task
-# TODO : Use import rich.console to color the text.
 
 class ToDoList(cmd.Cmd):
-    _FILEPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.json")
-    intro = "Welcom To The To-Do_List"
+    intro = "Welcome To The To-Do_List App"
     prompt = ">> "
+
     def __init__(self):
         super().__init__()
         self.user = None
@@ -22,7 +20,7 @@ class ToDoList(cmd.Cmd):
             password = hashlib.sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
             user = User(username, password)
             if user.is_there() :
-                print("valid name or password")
+                print("Invalid name or password")
                 exit()
             else :
                 self.user = user
@@ -33,11 +31,15 @@ class ToDoList(cmd.Cmd):
             if user.is_there() :
                 self.user = user.is_there()
             else :
-                print("valid input")
+                print("Invalid input")
                 exit()
+        else:
+            print("Invalid choose y or n.")
+            self.do_login()
 
     def do_add(self, arg):
         """ Add a task to the task manager """
+        # TODO: improve the method
         self.user.add_task(arg)
 
     def do_list(self, arg):
@@ -49,18 +51,18 @@ class ToDoList(cmd.Cmd):
         self.user.done_tasks()
 
     def do_inprogress(self, arg):
-        """ List inprogress tasks in the task manager """
+        """ List in progress tasks in the task manager """
         self.user.inprogress()
 
     def do_mark(self, arg):
-        """ Mark a task as completed or Inprogress"""
+        """ Mark a task as completed or In progress"""
         for task in self.user.tasks :
             if task["name"] == arg :
-                new_status = input("write your new status --> Done , Inprogress, Not Done:\n")
+                new_status = input("write your new status --> Done , In progress, Not Done:\n")
                 if new_status.lower() == "done" :
                     task["status"] = "Done"
-                elif new_status.lower() == "inprogress" :
-                    task["status"] = "Inprogress"
+                elif new_status.lower() == "In progress" :
+                    task["status"] = "In progress"
                 elif new_status.lower() == "not done" :
                     task["status"] = "Not Done"
 
@@ -68,11 +70,11 @@ class ToDoList(cmd.Cmd):
         """ Delete The task of the user from the task manager """
         self.user.delete_task(arg)
 
-    def do_setdiscreption(self, arg):
+    def do_set_description(self, arg):
         for task in self.user.tasks :
             if task["name"] == arg :
-                new_descreption = input("Set New Descreption for your Task.\n")
-                task["status"] = new_descreption
+                new_description = input("Set New Description for your Task.\n")
+                task["description"] = new_description
 
     def do_task_info(self, arg):
         for task in self.user.tasks :
@@ -81,25 +83,23 @@ class ToDoList(cmd.Cmd):
                 print(task.task_info())
 
     def do_exit(self, arg):
-        if self.user.is_there() :
-            save = input("Do you want to save your changes.(y/n): ").lower().strip()
-            if save == "y" :
-                with open(self._FILEPATH, "r", encoding="utf-8") as f :
+        save = input("Do you want to save your changes.(y/n): ").lower().strip()
+        if save == "y" :
+            if self.user.is_there() :
+                with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
                     data = json.load(f)
                 for user in data :
                     if user["id_"] == self.user.id_ :
                         data.remove(user)
                 data.append(self.user.__dict__)
-                with open(self._FILEPATH, "w", encoding="utf-8") as f :
+                with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
                     json.dump(data, f, indent=3)
-        else :
-            save = input("Do you want to save your new account.(y/n): ").lower().strip()
-            if save == "y" :
-                with open(self._FILEPATH, "r", encoding="utf-8") as f :
-                    data = json.load(f)
-                data.append(self.user.__dict__)
-                with open(self._FILEPATH, "w", encoding="utf-8") as f :
-                    json.dump(data, f, indent=3)
+            else :
+                    with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
+                        data = json.load(f)
+                    data.append(self.user.__dict__)
+                    with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
+                        json.dump(data, f, indent=3)
         return True
 
 if __name__ == "__main__" :
