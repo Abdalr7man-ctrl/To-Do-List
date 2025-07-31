@@ -13,29 +13,31 @@ class ToDoList(cmd.Cmd):
         self.do_login()
 
     def do_login(self):
-        """Login to the To Do List Cli App"""
-        login = input("Do you have an account? (y/n): ").lower().strip()
-        if login == "n" :
+        """
+        do login for the app
+        by use the password & name
+        """
+        while True:
+            user_input = input("Do you have an account? (y/n): ").lower().strip()
             username = input("Enter your username: ")
             password = hashlib.sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
             user = User(username, password)
-            if user.is_there() :
+            is_user_there = user.is_there()
+            if user_input == "n" and is_user_there:
                 print("Invalid name or password")
                 exit()
-            else :
+            else:
                 self.user = user
-        elif login == "y" :
-            username = input("Enter your username: ")
-            password = hashlib.sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
-            user = User(username, password)
-            if user.is_there() :
-                self.user = user.is_there()
-            else :
+                break
+            if user_input == "y" and not is_user_there:
                 print("Invalid input")
                 exit()
-        else:
-            print("Invalid choose y or n.")
-            self.do_login()
+            else:
+                self.user = is_user_there
+                break
+            if not self.user:
+                print("Invalid choose y or n.")
+                continue
 
     def do_add(self, arg):
         """ Add a task to the task manager"""
@@ -83,8 +85,8 @@ class ToDoList(cmd.Cmd):
                 print(task.task_info())
 
     def do_exit(self, arg):
-        save = input("Do you want to save your changes.(y/n): ").lower().strip()
-        if save == "y" :
+        save_changes = input("Do you want to save your changes.(y/n): ").lower().strip()
+        if save_changes == "y" :
             if self.user.is_there() :
                 with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
                     data = json.load(f)
@@ -103,4 +105,6 @@ class ToDoList(cmd.Cmd):
         return True
 
 if __name__ == "__main__" :
+    # XXX: Fix the users Bug in the JSON File
+
     ToDoList().cmdloop()

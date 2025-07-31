@@ -28,7 +28,7 @@ class User :
 
     def list_tasks(self):
         for num, task in enumerate(self.tasks,1) :
-            print(f"{num}-{task['name']}")
+            print(f"{num}){task['name']}")
 
     def done_tasks(self):
         num = 1
@@ -68,6 +68,7 @@ class Task:
 
     def task_info(self):
         return f"The task: {self.name}\nCreated at: {self.created_at}\nThe status: {self.status}\nDescription: {self.description}"
+
 
 if __name__ == "__main__" :
     pass
