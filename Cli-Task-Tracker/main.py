@@ -19,25 +19,25 @@ class ToDoList(cmd.Cmd):
         """
         while True:
             user_input = input("Do you have an account? (y/n): ").lower().strip()
+            if user_input not in ['y', 'n']:
+                print("Invalid choose y or n.")
+                continue
             username = input("Enter your username: ")
             password = hashlib.sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
             user = User(username, password)
-            is_user_there = user.is_there()
+            is_user_there = user.get()
             if user_input == "n" and is_user_there:
                 print("Invalid name or password")
                 exit()
-            else:
+            elif user_input == "n":
                 self.user = user
                 break
-            if user_input == "y" and not is_user_there:
-                print("Invalid input")
-                exit()
-            else:
+            if user_input == "y" and is_user_there:
                 self.user = is_user_there
                 break
-            if not self.user:
-                print("Invalid choose y or n.")
-                continue
+            else:
+                print("Invalid input")
+                exit()
 
     def do_add(self, arg):
         """ Add a task to the task manager"""
@@ -87,24 +87,22 @@ class ToDoList(cmd.Cmd):
     def do_exit(self, arg):
         save_changes = input("Do you want to save your changes.(y/n): ").lower().strip()
         if save_changes == "y" :
-            if self.user.is_there() :
-                with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
-                    data = json.load(f)
+            with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
+                data = json.load(f)
+
+            if self.user.get() :
                 for user in data :
                     if user["id_"] == self.user.id_ :
                         data.remove(user)
-                data.append(self.user.__dict__)
-                with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
-                    json.dump(data, f, indent=3)
-            else :
-                with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
-                    data = json.load(f)
-                data.append(self.user.__dict__)
-                with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
-                    json.dump(data, f, indent=3)
+            data.append(self.user.__dict__)
+
+            with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
+                json.dump(data, f, indent=3)
         return True
 
 if __name__ == "__main__" :
-    # XXX: Fix the users Bug in the JSON File
+    # TODO: rewrite the commit message :)
+    # XXX: json.loads after f.read() & json.load directly after open the file add this for JSON explain File
+    # as a Note
 
     ToDoList().cmdloop()

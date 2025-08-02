@@ -13,14 +13,13 @@ class User :
         self.id_ = id_ or str(uuid4())
         self.tasks = tasks or []
 
-    def is_there(self):
+    def get(self):
         with open(self.FILEPATH, "r", encoding="utf-8") as f :
-            file = f.read()
-            data = json.loads(file)
-            for user in data :
-                if self.name == user["name"] and self.password == user["password"] :
-                    return User(**user)
-            return False
+            data = json.load(f)
+        for user in data:
+            if self.name == user["name"] and self.password == user["password"]:
+                return User(**user)
+        return False
 
     def add_task(self, task_name:str, description_task:str = "No Description"):
         task = Task(task_name, description_task)
@@ -67,7 +66,10 @@ class Task:
         self.description = new_description
 
     def task_info(self):
-        return f"The task: {self.name}\nCreated at: {self.created_at}\nThe status: {self.status}\nDescription: {self.description}"
+        return f"""The task: {self.name}
+Created at: {self.created_at}
+The status: {self.status}
+Description: {self.description}"""
 
 
 if __name__ == "__main__" :
