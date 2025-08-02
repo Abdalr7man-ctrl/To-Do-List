@@ -15,7 +15,7 @@ class ToDoList(cmd.Cmd):
     def do_login(self):
         """
         do login for the app
-        by use the password & name
+        by use the password & the name
         """
         while True:
             user_input = input("Do you have an account? (y/n): ").lower().strip()
@@ -40,36 +40,36 @@ class ToDoList(cmd.Cmd):
                 exit()
 
     def do_add(self, arg):
-        """ Add a task to the task manager"""
-        # TODO: improve the method
+        """
+        Add a task to the Not Done tasks list
+        Syntax: add <task_name>
+        """
         self.user.add_task(arg)
 
     def do_list(self, arg):
-        """ List all tasks in the task manager"""
-        self.user.list_tasks()
-
-    def do_done(self, arg) :
-        """ List done tasks in the task manager"""
-        self.user.done_tasks()
-
-    def do_inProgress(self, arg):
-        """ List in progress tasks in the task manager """
-        self.user.inProgress()
+        """ 
+        list the tasks according to the status
+        syntax:
+         - list Done --> it will print all Done Tasks
+         - list Not Done --> it will print all Not Done Tasks
+        """
+        # if arg == "":...
+        self.user.list_tasks(arg)
 
     def do_mark(self, arg):
-        """ Mark a task as completed or In progress"""
+        """
+        Mark a task as Done or Not Done
+        """
         for task in self.user.tasks :
             if task["name"] == arg :
-                new_status = input("write your new status --> Done , In progress, Not Done:\n")
-                if new_status.lower() == "done" :
+                new_status = input("write your new status --> Done , Not Done:\n")
+                if new_status.lower() == "done":
                     task["status"] = "Done"
-                elif new_status.lower() == "In progress" :
-                    task["status"] = "In progress"
-                elif new_status.lower() == "not done" :
+                elif new_status.lower() == "not done":
                     task["status"] = "Not Done"
 
     def do_delete(self, arg):
-        """ Delete The task of the user from the task manager"""
+        """Delete The task of the user from the task manager"""
         self.user.delete_task(arg)
 
     def do_set_description(self, arg):
@@ -101,8 +101,8 @@ class ToDoList(cmd.Cmd):
         return True
 
 if __name__ == "__main__" :
+    # TODO: use JSON module in one file
     # TODO: rewrite the commit message :)
-    # XXX: json.loads after f.read() & json.load directly after open the file add this for JSON explain File
-    # as a Note
+    # TODO: InProgress status of the task
 
     ToDoList().cmdloop()

@@ -8,7 +8,7 @@ A simple command-line interface (CLI) application built with Python for managing
 * Add new tasks.
 * List all tasks.
 * Filter tasks by status (Done, Inprogress, Not Done).
-* Mark tasks with a specific status (Done, Inprogress, Not Done).
+* Mark tasks with a specific status (Done, Not Done).
 * Delete tasks.
 * Edit task descriptions.
 * Persistent data storage using a local `users.json` file.
@@ -47,8 +47,7 @@ A simple command-line interface (CLI) application built with Python for managing
         * *Example:* `add Finish project report`
     * `list`: Displays all your tasks with numbers.
     * `done`: Displays only the tasks marked as "Done".
-    * `inprogress`: Displays only the tasks marked as "Inprogress".
-    * `mark <task_name>`: Changes the status of an existing task. It will prompt you to enter the new status (`Done`, `Inprogress`, or `Not Done`).
+    * `mark <task_name>`: Changes the status of an existing task. It will prompt you to enter the new status (`Done` or `Not Done`).
         * *Example:* `mark Finish project report` (then enter 'Done' when prompted)
     * `setdiscreption <task_name>`: Allows you to add or edit the description for a task. It will prompt you for the new description.
         * *Example:* `setdiscreption Finish project report` (then enter the description)

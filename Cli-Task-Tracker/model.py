@@ -21,32 +21,16 @@ class User :
                 return User(**user)
         return False
 
-    def add_task(self, task_name:str, description_task:str = "No Description"):
+    def add_task(self, task_name: str, description_task: str = "No Description"):
         task = Task(task_name, description_task)
         self.tasks.append(task.__dict__)
 
-    def list_tasks(self):
-        for num, task in enumerate(self.tasks,1) :
-            print(f"{num}){task['name']}")
-
-    def done_tasks(self):
-        num = 1
-        for task in self.tasks :
-            if task["status"] == "Done" :
-                print(f"{num}-{task['name']}")
-                num += 1
-
-    def inProgress(self):
-        num = 1
-        for task in self.tasks :
-            if task["status"] == "InProgress" :
-                print(f"{num}-{task['name']}")
-                num += 1
-
-    def not_done(self):
-        for task in self.tasks :
-            if task["status"] == "Not Done" :
-                print(task["name"])
+    def list_tasks(self, status):
+        task_number = 1
+        for task in self.tasks:
+            if task["status"] == status:
+                print(f"{task_number}-{task['name']}")
+                task_number += 1
 
     def delete_task(self, name_task) :
         for i in self.tasks :
@@ -55,7 +39,7 @@ class User :
 
 
 class Task:
-    def __init__(self, name, description = "No Description", created_at=None, status=None):
+    def __init__(self, name, description = "No Description", created_at = None, status = None):
         self.name = name
         self.created_at = created_at or ctime()
         self.description = description
