@@ -19,28 +19,32 @@ A simple command-line interface (CLI) application built with Python for managing
 
 ## Setup
 
-1.  **Clone the repository (or download the files):**
+1. **Clone the repository (or download the files):**
+
     ```bash
     git clone git@github.com:Abdalr7man-ctrl/To-Do-List.git
     cd Cli-Task-Tracker
     ```
+
     *If you don't use Git, simply download the project folder.*
 
-2.  **Navigate to the project directory:**
+2. **Navigate to the project directory:**
+
     Make sure your terminal is open in the `Cli-Task-Tracker` directory containing the Python files.
 
 ## Usage
 
-1.  **Run the application:**
+1. **Run the application:**
+
     ```bash
     python3 main.py
     ```
 
-2.  **Login/Signup:**
+2. **Login/Signup:**
     * The application will first ask if you have an account (`y/n`).
     * Follow the prompts to either log in with your existing username and password or create a new account.
 
-3.  **Commands:**
+3. **Commands:**
     Once logged in, you can use the following commands at the `>>` prompt:
 
     * `add <task_name>`: Adds a new task with the status "Not Done" by default.
