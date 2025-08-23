@@ -2,6 +2,8 @@
 HTTP server and request handler
 """
 import json
+from db import * # TODO: will implement soon
+from utils import * # TODO: will implement soon
 from urllib.parse import parse_qs, urlparse
 from http.server import HTTPServer, BaseHTTPRequestHandler
 
@@ -12,6 +14,8 @@ class ToDoListServer(BaseHTTPRequestHandler):
 
     def do_GET(self):
 
+        print(f"the path = {self.path}")
+        print(f"the header = {self.headers}")
         myURL = urlparse(self.path)
         myQu = parse_qs(myURL.query)
 
@@ -31,7 +35,6 @@ class ToDoListServer(BaseHTTPRequestHandler):
             self.send_response(200, "Thats Very Good. :)")
             self.send_header("content-type", "text/html")
             self.end_headers()
-            # self.wfile.write(jsonData.endcode())
 
         elif self.path == "/tasks?":
             ...
@@ -52,7 +55,14 @@ class ToDoListServer(BaseHTTPRequestHandler):
             self.wfile.write("Error The page Not Found.".encode())
 
     def do_POST(self):
-        ...
+
+        if self.path == "/tasks":
+            self.send_response(201, "Created")
+            contant_lenght = self.headers["content-length"]
+            print(contant_lenght)
+            jsonData = self.rfile.read(int(contant_lenght)).decode()
+            dictData = json.loads(jsonData)
+            # TODO: use dict data to Create new task at the db by using also function from db.py
 
     def do_PUT(self):
         ...

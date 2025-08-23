@@ -1,0 +1,492 @@
+:root {
+  /* Colors (HSL) */
+  --background: 0 0% 100%;
+  --foreground: 224 71.4% 4.1%;
+  --primary: 220.9 39.3% 11%;
+  --primary-foreground: 210 20% 98%;
+  --secondary: 220 14.3% 95.9%;
+  --secondary-foreground: 220.9 39.3% 11%;
+  --muted: 220 14.3% 95.9%;
+  --muted-foreground: 220 8.9% 46.1%;
+  --border: 220 13% 91%;
+
+  /* Sizing scale */
+  --space-0: 0;
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.25rem;
+  --space-6: 1.5rem;
+  --space-8: 2rem;
+
+  /* Typography */
+  --font-sans: system-ui, sans-serif;
+  --font-mono: monospace;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 1.875rem;
+
+  /* Border Radius */
+  --radius-sm: 0.125rem;
+  --radius: 0.25rem;
+  --radius-md: 0.375rem;
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+
+  /* Border Width & Style */
+  --border-width-1: 1px;
+  --border-width-2: 2px;
+  --border-width-4: 4px;
+  --border-style: solid;
+
+  /* Border Colors */
+  --border-primary: hsl(var(--primary));
+  --border-secondary: hsl(var(--secondary));
+  --border-muted: hsl(var(--muted));
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.15);
+
+  /* Opacity */
+  --opacity-0: 0;
+  --opacity-25: 0.25;
+  --opacity-50: 0.5;
+  --opacity-75: 0.75;
+  --opacity-100: 1;
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  font-family: var(--font-sans);
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+/* Fonts */
+.font-sans { font-family: var(--font-sans); }
+.font-mono { font-family: var(--font-mono); }
+
+/* Layout */
+.block { display: block; }
+.flex { display: flex; }
+.inline { display: inline; }
+.inline-block { display: inline-block; }
+.grid { display: grid; }
+.hidden { display: none; }
+
+/* Flexbox */
+.flex-col { flex-direction: column; }
+.flex-row { flex-direction: row; }
+.items-center { align-items: center; }
+.items-start { align-items: flex-start; }
+.items-end { align-items: flex-end; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.justify-start { justify-content: flex-start; }
+.justify-end { justify-content: flex-end; }
+.flex-1 { flex: 1; }
+.flex-auto { flex: 1 1 auto; }
+.flex-none { flex: none; }
+
+/* Padding */
+.p-0 { padding: var(--space-0); }
+.p-1 { padding: var(--space-1); }
+.p-2 { padding: var(--space-2); }
+.p-3 { padding: var(--space-3); }
+.p-4 { padding: var(--space-4); }
+.p-5 { padding: var(--space-5); }
+.p-6 { padding: var(--space-6); }
+.p-8 { padding: var(--space-8); }
+
+.px-0 { padding-left: var(--space-0); padding-right: var(--space-0); }
+.px-1 { padding-left: var(--space-1); padding-right: var(--space-1); }
+.px-2 { padding-left: var(--space-2); padding-right: var(--space-2); }
+.px-3 { padding-left: var(--space-3); padding-right: var(--space-3); }
+.px-4 { padding-left: var(--space-4); padding-right: var(--space-4); }
+.px-5 { padding-left: var(--space-5); padding-right: var(--space-5); }
+
+.py-0 { padding-top: var(--space-0); padding-bottom: var(--space-0); }
+.py-1 { padding-top: var(--space-1); padding-bottom: var(--space-1); }
+.py-2 { padding-top: var(--space-2); padding-bottom: var(--space-2); }
+.py-3 { padding-top: var(--space-3); padding-bottom: var(--space-3); }
+.py-4 { padding-top: var(--space-4); padding-bottom: var(--space-4); }
+.py-5 { padding-top: var(--space-5); padding-bottom: var(--space-5); }
+
+/* Margin */
+.m-0 { margin: var(--space-0); }
+.m-1 { margin: var(--space-1); }
+.m-2 { margin: var(--space-2); }
+.m-3 { margin: var(--space-3); }
+.m-4 { margin: var(--space-4); }
+.m-5 { margin: var(--space-5); }
+.m-6 { margin: var(--space-6); }
+.m-8 { margin: var(--space-8); }
+
+.mx-0 { margin-left: var(--space-0); margin-right: var(--space-0); }
+.mx-1 { margin-left: var(--space-1); margin-right: var(--space-1); }
+.mx-2 { margin-left: var(--space-2); margin-right: var(--space-2); }
+.mx-3 { margin-left: var(--space-3); margin-right: var(--space-3); }
+.mx-4 { margin-left: var(--space-4); margin-right: var(--space-4); }
+.mx-5 { margin-left: var(--space-5); margin-right: var(--space-5); }
+.mx-6 { margin-left: var(--space-6); margin-right: var(--space-6); }
+.mx-8 { margin-left: var(--space-8); margin-right: var(--space-8); }
+
+.my-0 { margin-top: var(--space-0); margin-bottom: var(--space-0); }
+.my-1 { margin-top: var(--space-1); margin-bottom: var(--space-1); }
+.my-2 { margin-top: var(--space-2); margin-bottom: var(--space-2); }
+.my-3 { margin-top: var(--space-3); margin-bottom: var(--space-3); }
+.my-4 { margin-top: var(--space-4); margin-bottom: var(--space-4); }
+.my-5 { margin-top: var(--space-5); margin-bottom: var(--space-5); }
+.my-6 { margin-top: var(--space-6); margin-bottom: var(--space-6); }
+.my-8 { margin-top: var(--space-8); margin-bottom: var(--space-8); }
+
+.mt-0 { margin-top: var(--space-0); }
+.mt-1 { margin-top: var(--space-1); }
+.mt-2 { margin-top: var(--space-2); }
+.mt-3 { margin-top: var(--space-3); }
+.mt-4 { margin-top: var(--space-4); }
+.mt-5 { margin-top: var(--space-5); }
+.mt-6 { margin-top: var(--space-6); }
+.mt-8 { margin-top: var(--space-8); }
+
+.mb-0 { margin-bottom: var(--space-0); }
+.mb-1 { margin-bottom: var(--space-1); }
+.mb-2 { margin-bottom: var(--space-2); }
+.mb-3 { margin-bottom: var(--space-3); }
+.mb-4 { margin-bottom: var(--space-4); }
+.mb-5 { margin-bottom: var(--space-5); }
+.mb-6 { margin-bottom: var(--space-6); }
+.mb-8 { margin-bottom: var(--space-8); }
+
+.ml-0 { margin-left: var(--space-0); }
+.ml-1 { margin-left: var(--space-1); }
+.ml-2 { margin-left: var(--space-2); }
+.ml-3 { margin-left: var(--space-3); }
+.ml-4 { margin-left: var(--space-4); }
+.ml-5 { margin-left: var(--space-5); }
+.ml-6 { margin-left: var(--space-6); }
+.ml-8 { margin-left: var(--space-8); }
+
+.mr-0 { margin-right: var(--space-0); }
+.mr-1 { margin-right: var(--space-1); }
+.mr-2 { margin-right: var(--space-2); }
+.mr-3 { margin-right: var(--space-3); }
+.mr-4 { margin-right: var(--space-4); }
+.mr-5 { margin-right: var(--space-5); }
+.mr-6 { margin-right: var(--space-6); }
+.mr-8 { margin-right: var(--space-8); }
+
+/* Gap */
+.gap-0 { gap: var(--space-0); }
+.gap-1 { gap: var(--space-1); }
+.gap-2 { gap: var(--space-2); }
+.gap-3 { gap: var(--space-3); }
+.gap-4 { gap: var(--space-4); }
+.gap-5 { gap: var(--space-5); }
+.gap-6 { gap: var(--space-6); }
+.gap-8 { gap: var(--space-8); }
+
+.gap-x-0 { column-gap: var(--space-0); }
+.gap-x-1 { column-gap: var(--space-1); }
+.gap-x-2 { column-gap: var(--space-2); }
+.gap-x-3 { column-gap: var(--space-3); }
+.gap-x-4 { column-gap: var(--space-4); }
+.gap-x-5 { column-gap: var(--space-5); }
+.gap-x-6 { column-gap: var(--space-6); }
+.gap-x-8 { column-gap: var(--space-8); }
+
+.gap-y-0 { row-gap: var(--space-0); }
+.gap-y-1 { row-gap: var(--space-1); }
+.gap-y-2 { row-gap: var(--space-2); }
+.gap-y-3 { row-gap: var(--space-3); }
+.gap-y-4 { row-gap: var(--space-4); }
+.gap-y-5 { row-gap: var(--space-5); }
+.gap-y-6 { row-gap: var(--space-6); }
+.gap-y-8 { row-gap: var(--space-8); }
+
+/* Font Sizes */
+.text-xs { font-size: var(--text-xs); line-height: calc(var(--text-xs) * 1.25); }
+.text-sm { font-size: var(--text-sm); line-height: calc(var(--text-sm) * 1.25); }
+.text-base { font-size: var(--text-base); line-height: calc(var(--text-base) * 1.25); }
+.text-lg { font-size: var(--text-lg); line-height: calc(var(--text-lg) * 1.25); }
+.text-xl { font-size: var(--text-xl); line-height: calc(var(--text-xl) * 1.25); }
+.text-2xl { font-size: var(--text-2xl); line-height: calc(var(--text-2xl) * 1.25); }
+.text-3xl { font-size: var(--text-3xl); line-height: calc(var(--text-3xl) * 1.25); }
+
+/* Font Weight */
+.font-200 { font-weight: 200; }
+.font-300 { font-weight: 300; }
+.font-400 { font-weight: 400; }
+.font-600 { font-weight: 600; }
+.font-800 { font-weight: 800; }
+.font-900 { font-weight: 900; }
+
+/* Border */
+.border { border-width: var(--border-width-1); border-style: var(--border-style); border-color: hsl(var(--border)); }
+.border-1 { border-width: var(--border-width-1); }
+.border-2 { border-width: var(--border-width-2); }
+.border-4 { border-width: var(--border-width-4); }
+.border-primary { border-color: var(--border-primary); }
+.border-secondary { border-color: var(--border-secondary); }
+.border-muted { border-color: var(--border-muted); }
+
+/* Border Radius */
+.rounded-sm { border-radius: var(--radius-sm); }
+.rounded { border-radius: var(--radius); }
+.rounded-md { border-radius: var(--radius-md); }
+.rounded-lg { border-radius: var(--radius-lg); }
+.rounded-xl { border-radius: var(--radius-xl); }
+.rounded-full { border-radius: var(--radius-full); }
+
+/* Shadow */
+.shadow-sm { box-shadow: var(--shadow-sm); }
+.shadow-md { box-shadow: var(--shadow-md); }
+.shadow-lg { box-shadow: var(--shadow-lg); }
+
+/* Opacity */
+.opacity-0 { opacity: var(--opacity-0); }
+.opacity-25 { opacity: var(--opacity-25); }
+.opacity-50 { opacity: var(--opacity-50); }
+.opacity-75 { opacity: var(--opacity-75); }
+.opacity-100 { opacity: var(--opacity-100); }
+
+/* compoents */
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  padding: var(--space-2) var(--space-4);
+  /* border-radius: var(--radius-md); */
+  transition: background 0.2s ease, opacity 0.2s ease;
+  cursor: pointer;
+}
+
+.btn-sm {
+  font-size: var(--text-xs);
+  padding: var(--space-1) var(--space-2);
+}
+
+.btn-md {
+  font-size: var(--text-sm);
+  padding: var(--space-2) var(--space-3);
+}
+
+.btn:disabled,
+.btn[disabled] {
+  opacity: var(--opacity-50);
+  cursor: not-allowed;
+}
+
+/* Background and text color */
+.bg-primary {
+  background-color: hsl(var(--primary));
+}
+
+.text-primary-foreground {
+  color: hsl(var(--primary-foreground));
+}
+
+.bg-destructive {
+  background-color: hsl(0, 84%, 60%);
+}
+
+.text-destructive-foreground {
+  color: hsl(0, 0%, 100%);
+}
+
+.bg-destructive:hover {
+  background-color: hsl(0, 84%, 55%);
+}
+
+.hover\:bg-primary\/90:hover {
+  background-color: hsla(var(--primary), 0.9);
+}
+
+.bg-transparent {
+  background-color: transparent;
+}
+
+.hover\:bg-accent:hover {
+  background-color: hsl(var(--muted));
+}
+
+/* Cards */
+.card {
+  background-color: hsl(var(--secondary));
+  border: 1px solid hsl(var(--border));
+}
+
+/* Muted Foreground */
+.text-muted-foreground {
+  color: hsl(var(--muted-foreground));
+}
+
+/* Accent color on hover */
+.hover\:bg-destructive\/90:hover {
+  background-color: hsla(0, 84%, 55%, 0.9);
+}
+
+/* Theme */
+
+/* 1. Light (default) */
+[data-theme="light"] {
+  --background: 0 0% 100%;
+  --foreground: 224 71.4% 4.1%;
+  --primary: 220.9 39.3% 11%;
+  --primary-foreground: 210 20% 98%;
+  --secondary: 220 14.3% 95.9%;
+  --secondary-foreground: 220.9 39.3% 11%;
+  --muted: 220 14.3% 95.9%;
+  --muted-foreground: 220 8.9% 46.1%;
+  --border: 220 13% 91%;
+}
+
+/* 2. Terminal (neon green on black) */
+[data-theme="terminal"] {
+  --background: 0 0% 0%;
+  --foreground: 120 100% 70%;
+  --primary: 120 100% 70%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 120 100% 70%;
+  --muted: 120 10% 25%;
+  --muted-foreground: 120 10% 60%;
+  --border: 120 10% 40%;
+}
+
+/* 3. Pastel (soft, gentle tones) */
+[data-theme="pastel"] {
+  --background: 330 100% 98%;
+  --foreground: 250 30% 20%;
+  --primary: 280 60% 70%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 60 100% 95%;
+  --secondary-foreground: 250 30% 20%;
+  --muted: 60 30% 85%;
+  --muted-foreground: 250 10% 40%;
+  --border: 250 30% 80%;
+}
+
+/* 4. Dark */
+[data-theme="dark"] {
+  --background: 240 10% 10%;
+  --foreground: 0 0% 95%;
+  --primary: 260 100% 70%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 240 10% 20%;
+  --secondary-foreground: 0 0% 90%;
+  --muted: 240 10% 25%;
+  --muted-foreground: 0 0% 70%;
+  --border: 240 5% 30%;
+}
+
+/* 5. Forest */
+[data-theme="forest"] {
+  --background: 120 20% 95%;
+  --foreground: 120 40% 20%;
+  --primary: 140 40% 30%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 120 30% 90%;
+  --secondary-foreground: 120 40% 20%;
+  --muted: 120 20% 85%;
+  --muted-foreground: 120 20% 40%;
+  --border: 120 20% 70%;
+}
+
+/* 6. Cyberpunk */
+[data-theme="cyberpunk"] {
+  --background: 270 100% 5%;
+  --foreground: 330 100% 85%;
+  --primary: 200 100% 60%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 300 100% 20%;
+  --secondary-foreground: 330 100% 85%;
+  --muted: 270 100% 15%;
+  --muted-foreground: 330 100% 65%;
+  --border: 330 100% 70%;
+}
+
+/* 7. Dracula (vampire dark mode) */
+[data-theme="dracula"] {
+  --background: 231 15% 18%;
+  --foreground: 60 30% 96%;
+  --primary: 285 100% 65%;
+  --primary-foreground: 0 0% 10%;
+  --secondary: 231 15% 26%;
+  --secondary-foreground: 60 30% 96%;
+  --muted: 231 15% 24%;
+  --muted-foreground: 60 10% 60%;
+  --border: 231 15% 30%;
+}
+
+/* 8. Coffee */
+[data-theme="coffee"] {
+  --background: 30 30% 92%;
+  --foreground: 25 60% 15%;
+  --primary: 25 40% 30%;
+  --primary-foreground: 30 30% 95%;
+  --secondary: 30 30% 85%;
+  --secondary-foreground: 25 60% 15%;
+  --muted: 30 20% 80%;
+  --muted-foreground: 25 30% 30%;
+  --border: 30 20% 65%;
+}
+
+/* 9. Ocean */
+[data-theme="ocean"] {
+  --background: 200 100% 97%;
+  --foreground: 210 50% 20%;
+  --primary: 210 100% 45%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 200 80% 90%;
+  --secondary-foreground: 210 50% 20%;
+  --muted: 200 50% 85%;
+  --muted-foreground: 210 30% 40%;
+  --border: 210 40% 75%;
+}
+
+/* 10. Midnight Blue */
+[data-theme="midnight"] {
+  --background: 235 25% 10%;
+  --foreground: 220 30% 90%;
+  --primary: 260 70% 60%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 235 20% 18%;
+  --secondary-foreground: 220 30% 90%;
+  --muted: 235 20% 25%;
+  --muted-foreground: 220 20% 60%;
+  --border: 235 20% 40%;
+}
+
+/* 11. Neon */
+[data-theme="neon"] {
+  --background: 0 0% 0%;
+  --foreground: 120 100% 70%;
+  --primary: 120 100% 70%;
+  --primary-foreground: 0 0% 0%;
+  --secondary: 0 0% 10%;
+  --secondary-foreground: 120 100% 70%;
+  --muted: 120 10% 25%;
+  --muted-foreground: 120 10% 60%;
+  --border: 120 10% 40%;
+}

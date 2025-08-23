@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo App</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="font-sans bg-background text-foreground min-h-screen flex items-center justify-center p-4">
+  <div class="w-full max-w-md">
+    <div class="mb-4">
+      <label for="themeSelect" class="text-sm block mb-1">Theme:</label>
+      <select id="themeSelect" onchange="document.documentElement.setAttribute('data-theme', this.value)"
+        class="input px-3 py-2 text-sm rounded-md">
+        <option value="light">Light</option>
+        <option value="terminal">Terminal</option>
+        <option value="pastel">Pastel</option>
+        <option value="dark">Dark</option>
+        <option value="forest">Forest</option>
+        <option value="cyberpunk">Cyberpunk</option>
+        <option value="dracula">Dracula</option>
+        <option value="coffee">Coffee</option>
+        <option value="ocean">Ocean</option>
+        <option value="midnight">Midnight</option>
+        <option value="neon">Neon</option>
+      </select>
+    </div>
+
+    <div class="card rounded-lg shadow-lg p-6">
+      <div class="text-center mb-6">
+        <h1 class="text-2xl font-semibold text-foreground mb-2">Todo App</h1>
+        <p class="text-sm text-muted-foreground">Keep track of your tasks and stay organized</p>
+      </div>
+
+      <div class="flex gap-2 mb-6">
+        <input type="text" class="input px-3 py-2 text-sm rounded-md focus:outline-none focus:ring-2 flex-1"
+          id="todoInput" placeholder="Add a new todo..." maxlength="100" />
+        <button
+          class="btn btn-md bg-primary text-primary-foreground hover:bg-primary/90 rounded-md px-4 disabled:opacity-50 disabled:cursor-not-allowed"
+          onclick="addTodo()">
+          Add
+        </button>
+      </div>
+
+      <div class="flex gap-1 mb-4">
+        <button class="filter-btn text-xs px-3 py-1 rounded-md active" onclick="filterTodos('all')">All</button>
+        <button class="filter-btn text-xs px-3 py-1 rounded-md" onclick="filterTodos('active')">Active</button>
+        <button class="filter-btn text-xs px-3 py-1 rounded-md" onclick="filterTodos('completed')">Completed</button>
+      </div>
+
+      <div id="todoList" class="space-y-2">
+        <div class="text-center py-8 px-4 text-muted-foreground">
+          <div class="text-3xl mb-2">📝</div>
+          <p class="text-sm">No todos yet. Add one above!</p>
+        </div>
+      </div>
+
+      <div class="hidden flex justify-between items-center mt-4 pt-4 border-t text-sm text-muted-foreground" id="stats">
+        <span id="todoCount">0 items</span>
+        <button class="btn btn-sm bg-transparent text-foreground hover:bg-accent px-2 py-1 rounded-md"
+          onclick="clearCompleted()">
+          Clear completed
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API = "/tasks";
+    let todos = [];
+    let currentFilter = "all";
+
+    async function fetchTodos() {
+      let url = API;
+      if (currentFilter === "completed") url += "?completed=true";
+      else if (currentFilter === "active") url += "?completed=false";
+
+      const res = await fetch(url);
+      if (res.ok) {
+        todos = await res.json();
+        renderTodos();
+      }
+    }
+
+    async function addTodo() {
+      const input = document.getElementById("todoInput");
+      const text = input.value.trim();
+      if (!text) return;
+
+      const res = await fetch(API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: text })
+      });
+
+      if (res.ok) {
+        const { id } = await res.json();
+        todos.push({ id, title: text, completed: false });
+        input.value = "";
+        renderTodos();
+      }
+    }
+
+    async function toggleTodo(id) {
+      const todo = todos.find(t => t.id === id);
+      if (!todo) return;
+
+      const res = await fetch(`${API}/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ completed: !todo.completed })
+      });
+
+      if (res.ok) {
+        todo.completed = !todo.completed;
+        renderTodos();
+      }
+    }
+
+    async function deleteTodo(id) {
+      const res = await fetch(`${API}/${id}`, { method: "DELETE" });
+      if (res.ok) {
+        todos = todos.filter(t => t.id !== id);
+        renderTodos();
+      }
+    }
+
+    async function clearCompleted() {
+      const completedTodos = todos.filter(t => t.completed);
+      for (const todo of completedTodos) {
+        await deleteTodo(todo.id);
+      }
+    }
+
+    function filterTodos(filter) {
+      currentFilter = filter;
+
+      document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+      event.target.classList.add("active");
+
+      fetchTodos();
+    }
+
+    function renderTodos() {
+      const todoList = document.getElementById("todoList");
+      const stats = document.getElementById("stats");
+      const todoCount = document.getElementById("todoCount");
+
+      const filteredTodos = todos;
+
+      if (todos.length === 0) {
+        todoList.innerHTML = `
+          <div class="text-center py-8 px-4 text-muted-foreground">
+            <div class="text-3xl mb-2">📝</div>
+            <p class="text-sm">No todos yet. Add one above!</p>
+          </div>`;
+        stats.classList.add("hidden");
+        return;
+      }
+
+      if (filteredTodos.length === 0) {
+        todoList.innerHTML = `
+          <div class="text-center py-8 px-4 text-muted-foreground">
+            <div class="text-3xl mb-2">✨</div>
+            <p class="text-sm">No ${currentFilter} todos!</p>
+          </div>`;
+      } else {
+        todoList.innerHTML = filteredTodos.map(todo => `
+          <div class="todo-item flex items-center gap-3 p-3 border rounded-md bg-card ${todo.completed ? "completed" : ""}">
+            <input type="checkbox" class="checkbox rounded-sm" ${todo.completed ? "checked" : ""}
+              onchange="toggleTodo(${todo.id})">
+            <span class="flex-1 text-sm text-foreground ${todo.completed ? "line-through text-muted-foreground" : ""}">
+              ${todo.title}
+            </span>
+            <div class="flex gap-1">
+              <button class="btn btn-sm bg-destructive text-destructive-foreground hover:bg-destructive/90 px-2 py-1 rounded-md text-xs"
+                onclick="deleteTodo(${todo.id})">
+                Delete
+              </button>
+            </div>
+          </div>
+        `).join("");
+      }
+
+      const activeCount = todos.filter(todo => !todo.completed).length;
+      const completedCount = todos.filter(todo => todo.completed).length;
+
+      todoCount.textContent = `${activeCount} active, ${completedCount} completed`;
+      stats.classList.remove("hidden");
+    }
+
+    document.getElementById("todoInput").addEventListener("keypress", e => {
+      if (e.key === "Enter") addTodo();
+    });
+
+    fetchTodos();
+  </script>
+</body>
+</html>
