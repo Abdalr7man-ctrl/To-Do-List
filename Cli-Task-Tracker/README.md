@@ -6,8 +6,7 @@ A simple command-line interface (CLI) application built with Python for managing
 
 * User authentication (signup and login).
 * Add new tasks.
-* List all tasks.
-* Filter tasks by status (Done, Inprogress, Not Done).
+* List tasks.
 * Mark tasks with a specific status (Done, Not Done).
 * Delete tasks.
 * Edit task descriptions.
@@ -23,7 +22,7 @@ A simple command-line interface (CLI) application built with Python for managing
 
     ```bash
     git clone git@github.com:Abdalr7man-ctrl/To-Do-List.git
-    cd Cli-Task-Tracker
+    cd To-Do-List/Cli-Task-Tracker
     ```
 
     *If you don't use Git, simply download the project folder.*
@@ -49,12 +48,12 @@ A simple command-line interface (CLI) application built with Python for managing
 
     * `add <task_name>`: Adds a new task with the status "Not Done" by default.
         * *Example:* `add Finish project report`
-    * `list`: Displays all your tasks with numbers.
-    * `done`: Displays only the tasks marked as "Done".
+    * `list done`: Displays all your done tasks with numbers.
+    * `list not done`: Displays all your not done tasks with numbers.
     * `mark <task_name>`: Changes the status of an existing task. It will prompt you to enter the new status (`Done` or `Not Done`).
         * *Example:* `mark Finish project report` (then enter 'Done' when prompted)
-    * `setdiscreption <task_name>`: Allows you to add or edit the description for a task. It will prompt you for the new description.
-        * *Example:* `setdiscreption Finish project report` (then enter the description)
+    * `set_description <task_name>`: Allows you to add or edit the description for a task. It will prompt you for the new description.
+        * *Example:* `set_description Finish project report` (then enter the description)
     * `delete <task_name>`: Removes a task from your list.
         * *Example:* `delete Old task`
     * `help`: Shows a list of available commands.
@@ -65,5 +64,3 @@ A simple command-line interface (CLI) application built with Python for managing
 * `main.py`: The main entry point of the application. Handles the command-line interface, user input, and command execution using the `cmd` module.
 * `model.py`: Defines the `User` and `Task` classes, containing the data structure and logic for managing users and tasks.
 * `users.json`: The file used to store user account information and their associated tasks persistently.
-
----

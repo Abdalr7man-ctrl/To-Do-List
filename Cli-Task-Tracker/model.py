@@ -28,19 +28,20 @@ class User :
     def list_tasks(self, status):
         task_number = 1
         for task in self.tasks:
-            if task["status"] == status:
+            if task["status"].lower() == status.lower():
                 print(f"{task_number}-{task['name']}")
                 task_number += 1
 
-    def delete_task(self, name_task) :
-        for i in self.tasks :
-            if i["name"].lower() == name_task.lower() :
-                self.tasks.remove(i)
+    def delete_task(self, name_task):
+        for task in self.tasks:
+            if task["name"] == name_task:
+                self.tasks.remove(task)
 
 
 class Task:
-    def __init__(self, name, description = "No Description", created_at = None, status = None):
+    def __init__(self, name, description = "No Description", id_=None, created_at = None, status = None):
         self.name = name
+        self.id_ = id_ or str(uuid4())
         self.created_at = created_at or ctime()
         self.description = description
         self.status = status or "Not Done"

@@ -53,12 +53,12 @@ class ToDoList(cmd.Cmd):
          - list Done --> it will print all Done Tasks
          - list Not Done --> it will print all Not Done Tasks
         """
-        # if arg == "":...
         self.user.list_tasks(arg)
 
     def do_mark(self, arg):
         """
         Mark a task as Done or Not Done
+        syntax: mark <task_name>
         """
         for task in self.user.tasks :
             if task["name"] == arg :
@@ -67,6 +67,9 @@ class ToDoList(cmd.Cmd):
                     task["status"] = "Done"
                 elif new_status.lower() == "not done":
                     task["status"] = "Not Done"
+                break
+        else:
+            print(f"The task {arg} not found.")
 
     def do_delete(self, arg):
         """Delete The task of the user from the task manager"""
@@ -102,7 +105,9 @@ class ToDoList(cmd.Cmd):
 
 if __name__ == "__main__" :
     # TODO: use JSON module in one file
-    # TODO: rewrite the commit message :)
     # TODO: InProgress status of the task
+    # TODO: tasks with the same name! use ID!!
+    # TODO: use table to show the tasks
+    # TODO: UX with commands commands & UI :D
 
     ToDoList().cmdloop()
