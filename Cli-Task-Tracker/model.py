@@ -14,6 +14,9 @@ class User :
         self.tasks = tasks or []
 
     def get(self):
+        """
+        
+        """
         with open(self.FILEPATH, "r", encoding="utf-8") as f :
             data = json.load(f)
         for user in data:
@@ -21,11 +24,37 @@ class User :
                 return User(**user)
         return False
 
+    def add_user(self):
+        with open(self.FILEPATH, "r", encoding="utf-8") as f :
+            data = json.load(f)
+        data.append(self.__dict__)
+        with open(self.FILEPATH, "w", encoding="utf-8") as f :
+            json.dump(data, f, indent=3)
+
+    def delete_self(self):
+        with open(self.FILEPATH, "r", encoding="utf-8") as f :
+            data = json.load(f)
+        for index in range(len(data)):
+            if data[index]["id_"] == self.id_:
+                data.pop(index)
+        with open(self.FILEPATH, "w", encoding="utf-8") as f :
+            json.dump(data, f, indent=3)
+
+    def return_user(self):
+        """
+        
+        """
+        with open(self.FILEPATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for user in data:
+            if user["id_"] == self.id_ :
+                return user
+
     def add_task(self, task_name: str, description_task: str = "No Description"):
         task = Task(task_name, description_task)
         with open(self.FILEPATH, "r", encoding="utf-8") as f:
             data = json.load(f)
-        for user in data :
+        for user in data:
             if user["id_"] == self.id_ :
                 user["tasks"].append(task.__dict__)
         with open(self.FILEPATH, "w", encoding="utf-8") as f :
@@ -33,7 +62,7 @@ class User :
 
     def list_tasks(self, status):
         task_number = 1
-        for task in self.find_user()["tasks"]:
+        for task in self.return_user()["tasks"]:
             if task["status"].lower() == status.lower():
                 print(f"{task_number}-{task['name']}")
                 task_number += 1
@@ -49,12 +78,6 @@ class User :
         with open(self.FILEPATH, "w", encoding="utf-8") as f :
             json.dump(data, f, indent=3)
 
-    def find_user(self):
-        with open(self.FILEPATH, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        for user in data:
-            if user["id_"] == self.id_ :
-                return user
 
 class Task:
     def __init__(self, name, description = "No Description", id_=None, created_at = None, status = None):

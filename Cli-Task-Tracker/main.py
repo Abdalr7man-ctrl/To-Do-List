@@ -1,6 +1,6 @@
 import cmd
-import hashlib
 from model import User, Task
+from hashlib import sha256
 
 class ToDoList(cmd.Cmd):
     intro = "Welcome To The To-Do_List App"
@@ -22,7 +22,7 @@ class ToDoList(cmd.Cmd):
                 print("Invalid choose y or n.")
                 continue
             username = input("Enter your username: ")
-            password = hashlib.sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
+            password = sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
             user = User(username, password)
             is_user_there = user.get()
             if user_input == "n" and is_user_there:
@@ -30,6 +30,7 @@ class ToDoList(cmd.Cmd):
                 exit()
             elif user_input == "n":
                 self.user = user
+                self.user.add_user()
                 break
             if user_input == "y" and is_user_there:
                 self.user = is_user_there
@@ -73,6 +74,18 @@ class ToDoList(cmd.Cmd):
     def do_delete(self, arg):
         """Delete The task of the user from the task manager"""
         self.user.delete_task(arg)
+
+    def do_delete_account(self, arg):
+        delet_account = input("Are you sure you want to delete account(y/n)?: ")
+        if delet_account == "y":
+            password = sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
+        else:
+            return
+        if password != self.user.password:
+            print("Wrong password")
+        else:
+            self.user.delete_self()
+            self.do_login(None)
 
     def do_set_description(self, arg):
         for task in self.user.tasks :
