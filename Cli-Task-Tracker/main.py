@@ -1,4 +1,3 @@
-import json
 import cmd
 import hashlib
 from model import User, Task
@@ -10,9 +9,9 @@ class ToDoList(cmd.Cmd):
     def __init__(self):
         super().__init__()
         self.user = None
-        self.do_login()
+        self.do_login(None)
 
-    def do_login(self):
+    def do_login(self, arg):
         """
         do login for the app
         by use the password & the name
@@ -88,23 +87,9 @@ class ToDoList(cmd.Cmd):
                 print(task.task_info())
 
     def do_exit(self, arg):
-        save_changes = input("Do you want to save your changes.(y/n): ").lower().strip()
-        if save_changes == "y" :
-            with open(self.user.FILEPATH, "r", encoding="utf-8") as f :
-                data = json.load(f)
-
-            if self.user.get() :
-                for user in data :
-                    if user["id_"] == self.user.id_ :
-                        data.remove(user)
-            data.append(self.user.__dict__)
-
-            with open(self.user.FILEPATH, "w", encoding="utf-8") as f :
-                json.dump(data, f, indent=3)
         return True
 
 if __name__ == "__main__" :
-    # TODO: use JSON module in one file
     # TODO: InProgress status of the task
     # TODO: tasks with the same name! use ID!!
     # TODO: use table to show the tasks

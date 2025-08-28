@@ -1,11 +1,11 @@
-import os
 import json
 from time import ctime
 from uuid import uuid4
+from os.path import abspath, dirname, join
 
 
 class User :
-    FILEPATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "users.json")
+    FILEPATH = join(dirname(abspath(__file__)), "users.json")
 
     def __init__(self, name, password, id_=None, tasks=None):
         self.name = name
@@ -23,20 +23,38 @@ class User :
 
     def add_task(self, task_name: str, description_task: str = "No Description"):
         task = Task(task_name, description_task)
-        self.tasks.append(task.__dict__)
+        with open(self.FILEPATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for user in data :
+            if user["id_"] == self.id_ :
+                user["tasks"].append(task.__dict__)
+        with open(self.FILEPATH, "w", encoding="utf-8") as f :
+            json.dump(data, f, indent=3)
 
     def list_tasks(self, status):
         task_number = 1
-        for task in self.tasks:
+        for task in self.find_user()["tasks"]:
             if task["status"].lower() == status.lower():
                 print(f"{task_number}-{task['name']}")
                 task_number += 1
 
     def delete_task(self, name_task):
-        for task in self.tasks:
-            if task["name"] == name_task:
-                self.tasks.remove(task)
+        with open(self.FILEPATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for user in data:
+            if user["id_"] == self.id_ :
+                for task in user["tasks"]:
+                    if task["name"] == name_task:
+                        user["tasks"].remove(task)
+        with open(self.FILEPATH, "w", encoding="utf-8") as f :
+            json.dump(data, f, indent=3)
 
+    def find_user(self):
+        with open(self.FILEPATH, "r", encoding="utf-8") as f:
+            data = json.load(f)
+        for user in data:
+            if user["id_"] == self.id_ :
+                return user
 
 class Task:
     def __init__(self, name, description = "No Description", id_=None, created_at = None, status = None):
