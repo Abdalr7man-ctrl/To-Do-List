@@ -53,7 +53,13 @@ class ToDoList(cmd.Cmd):
          - list Done --> it will print all Done Tasks
          - list Not Done --> it will print all Not Done Tasks
         """
-        self.user.list_tasks(arg)
+        if arg:
+            self.user.list_tasks(arg)
+            return
+        print()
+        for num, task in enumerate(self.user.return_user()["tasks"], start=1):
+            print(f"{num}-{task['name']}")
+        print()
 
     def do_mark(self, arg):
         """
@@ -107,5 +113,7 @@ if __name__ == "__main__" :
     # TODO: tasks with the same name! use ID!!
     # TODO: use table to show the tasks
     # TODO: UX with commands commands & UI :D
+    # TODO: use gif in the README file
+    # TODO: Some Formatting
 
     ToDoList().cmdloop()

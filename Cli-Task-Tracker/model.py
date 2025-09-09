@@ -61,11 +61,9 @@ class User :
             json.dump(data, f, indent=3)
 
     def list_tasks(self, status):
-        task_number = 1
-        for task in self.return_user()["tasks"]:
+        for task_number, task in enumerate(self.return_user()["tasks"], start=1):
             if task["status"].lower() == status.lower():
                 print(f"{task_number}-{task['name']}")
-                task_number += 1
 
     def delete_task(self, name_task):
         with open(self.FILEPATH, "r", encoding="utf-8") as f:
