@@ -82,8 +82,8 @@ class ToDoList(cmd.Cmd):
         self.user.delete_task(arg)
 
     def do_delete_account(self, arg):
-        delet_account = input("Are you sure you want to delete account(y/n)?: ")
-        if delet_account == "y":
+        delete_account = input("Are you sure you want to delete account(y/n)?: ")
+        if delete_account == "y":
             password = sha256(input("Enter your password: ").encode(encoding="utf-8")).hexdigest()
         else:
             return

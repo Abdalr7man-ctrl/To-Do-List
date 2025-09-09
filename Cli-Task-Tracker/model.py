@@ -15,7 +15,8 @@ class User :
 
     def get(self):
         """
-        
+        search for the user by password and name
+        if not exist it will return False else it will return the User object
         """
         with open(self.FILEPATH, "r", encoding="utf-8") as f :
             data = json.load(f)
@@ -42,7 +43,8 @@ class User :
 
     def return_user(self):
         """
-        
+        its for search about user already exist
+        to return as a dictionary object
         """
         with open(self.FILEPATH, "r", encoding="utf-8") as f:
             data = json.load(f)

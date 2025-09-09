@@ -2,6 +2,8 @@
 
 A simple command-line interface (CLI) application built with Python for managing your personal tasks (To-Do List). It allows users to create accounts, log in, add, view, update the status of, and delete tasks.
 
+to practice and build by yourself see [roadmap.sh](https://roadmap.sh/projects/task-tracker)
+
 ## Features
 
 * User authentication (signup and login).
